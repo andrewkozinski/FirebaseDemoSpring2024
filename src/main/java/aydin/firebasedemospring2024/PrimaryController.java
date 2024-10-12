@@ -52,7 +52,7 @@ public class PrimaryController {
         return listOfUsers;
     }
 
-    void initialize() {
+   public void initialize() {
 
         AccessDataView accessDataViewModel = new AccessDataView();
         nameTextField.textProperty().bindBidirectional(accessDataViewModel.personNameProperty());
@@ -78,7 +78,7 @@ public class PrimaryController {
 
     @FXML
     private void switchToSecondary() throws IOException {
-        DemoApp.setRoot("secondary");
+        DemoApp.setRoot("welcome");
     }
     public boolean readFirebase()
     {
