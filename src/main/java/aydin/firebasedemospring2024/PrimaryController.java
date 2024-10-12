@@ -36,9 +36,6 @@ public class PrimaryController {
     private Button readButton;
 
     @FXML
-    private Button registerButton;
-
-    @FXML
     private Button switchSecondaryViewButton;
 
     @FXML
@@ -78,7 +75,7 @@ public class PrimaryController {
 
     @FXML
     private void switchToSecondary() throws IOException {
-        DemoApp.setRoot("welcome");
+        DemoApp.setRoot("secondary");
     }
     public boolean readFirebase()
     {

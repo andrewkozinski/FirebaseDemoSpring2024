@@ -2,13 +2,22 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aydin.firebasedemospring2024.PrimaryController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aydin.firebasedemospring2024.WelcomeController">
    <children>
       <Label text="Weclome!" />
+      <HBox alignment="CENTER" prefHeight="42.0" prefWidth="600.0" spacing="5.0">
+         <children>
+            <Label text="Email:" />
+            <TextField fx:id="emailField" />
+            <Label text="Password:" />
+            <TextField fx:id="passwordField" />
+         </children>
+      </HBox>
       <HBox alignment="CENTER" prefHeight="33.0" prefWidth="600.0" spacing="10.0">
          <children>
             <Button mnemonicParsing="false" onAction="#registerButtonClicked" text="Register" />
