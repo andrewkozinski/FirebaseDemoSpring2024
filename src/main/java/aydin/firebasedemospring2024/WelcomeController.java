@@ -4,6 +4,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
+import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.auth.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -55,11 +57,22 @@ public class WelcomeController {
     @FXML
     void handleLoginButton() {
 
-        String email = emailField.getText();
-        String password = passwordField.getText();
+        //String email = emailField.getText();
+        //String password = passwordField.getText();
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
-
+        try {
+            UserRecord user = auth.getUserByEmail("user222@example.com");
+            if(user != null) {
+                switchToPrimary();
+            }
+        } catch (FirebaseAuthException e) {
+            System.out.println("Please register before logging in");
+            //throw new RuntimeException(e);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

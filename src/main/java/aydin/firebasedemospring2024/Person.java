@@ -3,10 +3,12 @@ package aydin.firebasedemospring2024;
 public class Person {
     private String name;
     private int age;
+    private String phone;
 
-    public Person(String name, int age) {
+    public Person(String name, int age, String phonenumber) {
         this.name = name;
         this.age = age;
+        this.phone = phonenumber;
     }
 
     public String getName() {
