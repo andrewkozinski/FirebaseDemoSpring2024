@@ -37,6 +37,7 @@ public class DemoApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
+        /*
         //Firebase code from website
         FileInputStream serviceAccount = new FileInputStream("path/to/serviceAccountKey.json");
 
@@ -46,6 +47,7 @@ public class DemoApp extends Application {
 
         FirebaseApp.initializeApp(options);
         //End firebase code
+        */
 
         fstore = contxtFirebase.firebase();
         fauth = FirebaseAuth.getInstance();

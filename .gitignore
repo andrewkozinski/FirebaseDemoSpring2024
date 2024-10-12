@@ -37,4 +37,4 @@ build/
 ### Mac OS ###
 .DS_Store
 /src/main/resources/aydin/firebasedemospring2024/key.jason
-/src/main/java/aydin/firebasedemospring2024/key.json
+/key.json
