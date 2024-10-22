@@ -1,5 +1,8 @@
 package aydin.firebasedemospring2024;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -11,6 +14,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class WelcomeController {
 
@@ -26,10 +32,14 @@ public class WelcomeController {
     }
 
     public boolean registerUser() {
+
+        String email = "user222@example.com";
+        String password = "secretPassword";
+
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
-                .setEmail("user222@example.com")
+                .setEmail(email)
                 .setEmailVerified(false)
-                .setPassword("secretPassword")
+                .setPassword(password)
                 .setPhoneNumber("+11234567890")
                 .setDisplayName("John Doe")
                 .setDisabled(false);
@@ -39,6 +49,8 @@ public class WelcomeController {
             userRecord = DemoApp.fauth.createUser(request);
             System.out.println("Successfully created new user with Firebase Uid: " + userRecord.getUid()
                     + " check Firebase > Authentication > Users tab");
+            //Add data to Firestore
+            addData(email, password);
             return true;
 
         } catch (FirebaseAuthException ex) {
@@ -74,6 +86,17 @@ public class WelcomeController {
             e.printStackTrace();
         }
 
+    }
+
+    public void addData(String email, String password) {
+        DocumentReference docRef = DemoApp.fstore.collection("Users").document(UUID.randomUUID().toString());
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("Email", email);
+        data.put("Password", password);
+
+        //asynchronously write data
+        ApiFuture<WriteResult> result = docRef.set(data);
     }
 
 
