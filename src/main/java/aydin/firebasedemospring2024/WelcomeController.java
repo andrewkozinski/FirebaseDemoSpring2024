@@ -40,11 +40,20 @@ public class WelcomeController {
         String email = emailField.getText();
         String password = passwordField.getText();
 
+        if(password.length() < 6) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Password must be at least 6 characters");
+            alert.showAndWait();
+            return false;
+        }
+
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                 .setEmail(email)
                 .setEmailVerified(false)
                 .setPassword(password)
-                .setPhoneNumber("+11234567890")
+                .setPhoneNumber("+11234567891")
                 .setDisplayName("John Doe")
                 .setDisabled(false);
 
@@ -67,7 +76,12 @@ public class WelcomeController {
 
     @FXML
     void registerButtonClicked(ActionEvent event) {
-        registerUser();
+        if(registerUser()) {
+            System.out.println("Successs");
+        }
+        else {
+            System.out.println("Error");
+        }
     }
 
     @FXML
@@ -88,6 +102,11 @@ public class WelcomeController {
                 }
                 else {
                     System.out.println("Invalid email or password. Please try again.");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Login Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Invalid email or password. Please try again.");
+                    alert.showAndWait();
                 }
 
             }
@@ -143,7 +162,7 @@ public class WelcomeController {
             {
                 System.out.println("No data");
             }
-            correctPassword =true;
+            //correctPassword =true;
 
         }
         catch (InterruptedException | ExecutionException ex)
