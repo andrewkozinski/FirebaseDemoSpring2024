@@ -2,21 +2,23 @@ package aydin.firebasedemospring2024;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
-import com.google.firebase.cloud.FirestoreClient;
-import com.google.firebase.auth.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public class WelcomeController {
 
@@ -33,8 +35,10 @@ public class WelcomeController {
 
     public boolean registerUser() {
 
-        String email = "user222@example.com";
-        String password = "secretPassword";
+        //String email = "user222@example.com";
+        //String password = "secretPassword";
+        String email = emailField.getText();
+        String password = passwordField.getText();
 
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                 .setEmail(email)
@@ -69,17 +73,31 @@ public class WelcomeController {
     @FXML
     void handleLoginButton() {
 
-        //String email = emailField.getText();
-        //String password = passwordField.getText();
+        String email = emailField.getText();
+        String password = passwordField.getText();
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         try {
-            UserRecord user = auth.getUserByEmail("user222@example.com");
+            UserRecord user = auth.getUserByEmail(email);
             if(user != null) {
-                switchToPrimary();
+
+                if(checkUser(email, password)) {
+                    //Correct email & password, let user in
+                    System.out.println("Successfully logged in");
+                    switchToPrimary();
+                }
+                else {
+                    System.out.println("Invalid email or password. Please try again.");
+                }
+
             }
         } catch (FirebaseAuthException e) {
             System.out.println("Please register before logging in");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Login Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Invalid email or password. Please try again.");
+            alert.showAndWait();
             //throw new RuntimeException(e);
         }
         catch (IOException e) {
@@ -97,6 +115,42 @@ public class WelcomeController {
 
         //asynchronously write data
         ApiFuture<WriteResult> result = docRef.set(data);
+    }
+
+
+    public boolean checkUser(String username, String password)
+    {
+        boolean correctPassword = false;
+
+        //asynchronously retrieve all documents
+        ApiFuture<QuerySnapshot> future =  DemoApp.fstore.collection("Users").get();
+        // future.get() blocks on response
+        List<QueryDocumentSnapshot> documents;
+        try
+        {
+            documents = future.get().getDocuments();
+            if(documents.size()>0)
+            {
+                for (QueryDocumentSnapshot document : documents)
+                {
+                    if(document.getData().get("Email").equals(username) && document.getData().get("Password").equals(password)) {
+                        correctPassword = true;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                System.out.println("No data");
+            }
+            correctPassword =true;
+
+        }
+        catch (InterruptedException | ExecutionException ex)
+        {
+            ex.printStackTrace();
+        }
+        return correctPassword;
     }
 
 
