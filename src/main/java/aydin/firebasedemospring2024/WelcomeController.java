@@ -53,7 +53,8 @@ public class WelcomeController {
                 .setEmail(email)
                 .setEmailVerified(false)
                 .setPassword(password)
-                .setPhoneNumber("+11234567891")
+                //.setPhoneNumber("+11234567891")
+                .setPhoneNumber("+11234567892")
                 .setDisplayName("John Doe")
                 .setDisabled(false);
 
